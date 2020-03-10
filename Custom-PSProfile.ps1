@@ -27,42 +27,46 @@ $ExecutionPolicy = (Get-ExecutionPolicy).ToString()
 $env:PSElevated = Test-Elevated
 
 #-------------------------#
-#--- WORKING DIRECTORY ---#
+#--- DIRECTORIES ---#
 #-------------------------#
 Write-Host "CONFIGURING START DIRECTORY..." -ForegroundColor Yellow
 Set-Location $ENV:USERPROFILE\Documents\WindowsPowerShell
-Set-Variable -Name WORKINGDIRECTORY -Value "$ENV:USERPROFILE\Documents\WindowsPowerShell"
 
 #-----------------#
 #--- FUNCTIONS ---#
 #-----------------#
 Write-Host "IMPORTING FUNCTIONS..." -ForegroundColor Yellow
-function global:Time {Get-Date -UFormat "%A, %B %e, %Y %r"}
+function global:Date {Get-Date -UFormat "%A, %B %e, %Y %r"}
 function global:Bypass
 	{
-		Set-ExecutionPolicy RemoteSigned -Force -Confirm:$false;
-		Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted -Force -Confirm:$false
+		Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy RemoteSigned -Force -Confirm:$false;
+		Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy UnRestricted -Force -Confirm:$false
 	}
 function global:Reload {& $profile}
-function global:ShowWorkDir {Get-ChildItem $WORKINGDIRECTORY -Directory}
-function global:Connect-Az {.\$WORKINGDIRECTORY\Azure\Connect-AzAccount.ps1}
+function global:Connect-Az {.\$ENV:USERPROFILE\Documents\WindowsPowerShell\Azure\Connect-AzAccount.ps1}
 function global:Update-Alias
 	{
-	Export-Alias -Path "$WORKINGDIRECTORY\alias.ps1" -As Script
-	Add-Content -Path $Profile -Value (Get-Content $WORKINGDIRECTORY\Aliases\alias.ps1)
+	Export-Alias -Path "$ENV:USERPROFILE\Documents\WindowsPowerShell\Aliases\alias.ps1" -As Script
+	Add-Content -Path $Profile -Value (Get-Content $ENV:USERPROFILE\Documents\WindowsPowerShell\Aliases\alias.ps1)
 	}
 function global:Terminal { Invoke-Item "C:\Users\Odi\Desktop\Windows Terminal.lnk" }
-function global:Edit-PSProfile { notepad++.exe $profile.CurrentUserCurrentHost }
-function global:GetServices { Get-Service | sort Status | fw -GroupBy Status -AutoSize }
+function global:Edit-Profile { notepad++.exe $profile.CurrentUserCurrentHost }
+function global:GetServices { Get-Service | Sort-Object Status | Format-Wide -GroupBy Status -AutoSize }
 function global:GetRunningServices { Get-Service | Where-Object {$_.status -eq 'running'} | Select-Object DisplayName,Name }
 function global:GetStoppedServices { Get-Service | Where-Object {$_.status -eq 'stopped'} | Select-Object DisplayName,Name }
-function global:Choco-Up { choco upgrade all --verbose }
+function global:ChocoItUp
+	{
+		Write-Host "UPDATING CHOCOLATEY PACKAGES..." -ForegroundColor Yellow
+		choco upgrade all --verbose
+		Write-Host "SUCCESSFULLY UPDATED CHOCOLATEY PACKAGES!" -ForegroundColor Green
+	}
+function global:GetFunctions { Get-ChildItem function: }
 
 #---------------#
 #--- MODULES ---#
 #---------------#
 Write-Host "IMPORTING MODULES..." -ForegroundColor Yellow
-Import-Module -Name ActiveDirectory, PSReadline, MSOnline, VMware.PowerCLI, Az, PowerShellGet -ErrorAction SilentlyContinue
+Import-Module -Name ActiveDirectory, PSReadline, MSOnline, VMware.PowerCLI, Az, PowerShellGet -ErrorAction SilentlyContinue | Out-Null
 
 #---------------#
 #--- ALIASES ---#
@@ -78,16 +82,14 @@ $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
 	Import-Module "$ChocolateyProfile"
 }
-Write-Host "UPDATING CHOCOLATEY PACKAGES..." -ForegroundColor Yellow
-choco upgrade all --verbose
 
 #-------------#
 #--- AZURE ---#
 #-------------#
 Write-Host "IMPORTING AZURE..." -ForegroundColor Yellow
-$AzureContext = Import-AzContext -Path $WORKINGDIRECTORY\Azure\other-context.json -ErrorAction SilentlyContinue
+$AzureContext = Import-AzContext -Path $ENV:USERPROFILE\Documents\GitHub\Azure\other-context.json -ErrorAction SilentlyContinue
 
 #----------------#
 #--- COMMENTS ---#
 #----------------#
-Write-Host "LOADING CUSTOM POWERSHELL PROFILE - DONE!" -ForegroundColor Green
+Write-Host "SUCCESSFULLY LOADED CUSTOM POWERSHELL PROFILE!" -ForegroundColor Green
