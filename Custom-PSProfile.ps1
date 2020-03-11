@@ -13,10 +13,10 @@
 #>
 
 #---------------------------#
-#--- RUN AS ADMINISTRATOR ---#
+#--- RUNAS ADMINISTRATOR ---#
 #---------------------------#
 #Requires -RunAsAdministrator
-Write-Host "LOADING CUSTOM POWERSHELL PROFILE - START!" -ForegroundColor Cyan
+Write-Host "LOADING CUSTOM POWERSHELL PROFILE..." -ForegroundColor Yellow
 
 #------------------------#
 #--- EXECUTION POLICY ---#
@@ -27,9 +27,9 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 $ExecutionPolicy = (Get-ExecutionPolicy).ToString()
 
-#-------------------#
+#-------------------------#
 #--- DIRECTORIES ---#
-#-------------------#
+#-------------------------#
 Write-Host "CONFIGURING START DIRECTORY..." -ForegroundColor Yellow
 Set-Location C:\
 
@@ -44,7 +44,6 @@ function global:Bypass
 		Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy UnRestricted -Force -Confirm:$false
 	}
 function global:Reload {& $profile}
-function global:Connect-Az {.\$ENV:USERPROFILE\Documents\WindowsPowerShell\Azure\Connect-AzAccount.ps1}
 function global:Update-Alias
 	{
 	Export-Alias -Path "$ENV:USERPROFILE\Documents\WindowsPowerShell\Aliases\alias.ps1" -As Script
@@ -90,3 +89,4 @@ if (Test-Path($ChocolateyProfile)) {
 #--- COMMENTS ---#
 #----------------#
 Write-Host "SUCCESSFULLY LOADED POWERSHELL PROFILE!" -ForegroundColor Green
+Write-Host "`n #--- USEFUL FUNCTIONS & ALIASES ---# `n `n [GETFUNCTIONS] Show all functions available. `n [CHOCOITUP] Updates all Chocolatey packages. `n [EDIT-PROFILE] Edit PowerShell profile in Notepad++ `n [RELOAD] Reload PowerShell profile. `n [BYPASS] Sets ExecutionPolicy to 'Bypass' for current process. `n [TERMINAL] Opens Microsoft Terminal Preview. `n [GETSERVICES] Displays all services, grouped by status. `n [GETRUNNINGSERVICES] Displays all running services. `n [GETSTOPPEDSERVICES] Displays all stopped services. `n" -ForegroundColor Cyan
