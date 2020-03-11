@@ -13,7 +13,7 @@
 #>
 
 #---------------------------#
-#--- RUNAS ADMINISTRATOR ---#
+#--- RUN AS ADMINISTRATOR ---#
 #---------------------------#
 #Requires -RunAsAdministrator
 Write-Host "LOADING CUSTOM POWERSHELL PROFILE - START!" -ForegroundColor Cyan
@@ -22,15 +22,16 @@ Write-Host "LOADING CUSTOM POWERSHELL PROFILE - START!" -ForegroundColor Cyan
 #--- EXECUTION POLICY ---#
 #------------------------#
 Write-Host "CONFIGURING EXECUTIONPOLICY..." -ForegroundColor Yellow
-Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 $ExecutionPolicy = (Get-ExecutionPolicy).ToString()
-$env:PSElevated = Test-Elevated
 
-#-------------------------#
+#-------------------#
 #--- DIRECTORIES ---#
-#-------------------------#
+#-------------------#
 Write-Host "CONFIGURING START DIRECTORY..." -ForegroundColor Yellow
-Set-Location $ENV:USERPROFILE\Documents\WindowsPowerShell
+Set-Location C:\
 
 #-----------------#
 #--- FUNCTIONS ---#
@@ -61,16 +62,18 @@ function global:ChocoItUp
 		Write-Host "SUCCESSFULLY UPDATED CHOCOLATEY PACKAGES!" -ForegroundColor Green
 	}
 function global:GetFunctions { Get-ChildItem function: }
+function global:ExecutionPolicy { Get-ExecutionPolicy -List }
 
 #---------------#
 #--- MODULES ---#
 #---------------#
 Write-Host "IMPORTING MODULES..." -ForegroundColor Yellow
-Import-Module -Name ActiveDirectory, PSReadline, MSOnline, VMware.PowerCLI, Az, PowerShellGet -ErrorAction SilentlyContinue | Out-Null
+Import-Module -Name ActiveDirectory, PSReadline, MSOnline, PowerShellGet | Out-Null
 
 #---------------#
 #--- ALIASES ---#
 #---------------#
+Write-Host "IMPORT ALIASES..." -ForegroundColor Yellow
 Set-Alias -Name:"gh" -Value:"Get-Help" -Description:"" -Option:"None"
 Set-Alias -Name:"note" -Value:"notepad++.exe" -Description:"Opens Notepad++"
 
@@ -83,13 +86,7 @@ if (Test-Path($ChocolateyProfile)) {
 	Import-Module "$ChocolateyProfile"
 }
 
-#-------------#
-#--- AZURE ---#
-#-------------#
-Write-Host "IMPORTING AZURE..." -ForegroundColor Yellow
-$AzureContext = Import-AzContext -Path $ENV:USERPROFILE\Documents\GitHub\Azure\other-context.json -ErrorAction SilentlyContinue
-
 #----------------#
 #--- COMMENTS ---#
 #----------------#
-Write-Host "SUCCESSFULLY LOADED CUSTOM POWERSHELL PROFILE!" -ForegroundColor Green
+Write-Host "SUCCESSFULLY LOADED POWERSHELL PROFILE!" -ForegroundColor Green
