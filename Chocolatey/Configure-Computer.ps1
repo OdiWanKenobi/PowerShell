@@ -29,10 +29,6 @@ Get-AppxPackage -AllUsers | Where-Object { $_.name –notlike "*Microsoft.Window
 # GUI
 choco install chocolateygui
 
-# Lenovo
-choco install lenovo-thinkvantage-system-update
-choco install unifying
-
 # General
 choco install 7zip
 choco install adobereader
@@ -93,9 +89,7 @@ choco install github-desktop
 
 # Azure
 choco install azure-cli
-choco install azurepowershell
 choco install microsoftazurestorageexplorer
-choco install AzurePowerShell
 choco install fogg
 
 # Office 365
