@@ -22,8 +22,6 @@ Write-Host "LOADING CUSTOM POWERSHELL PROFILE..." -ForegroundColor Yellow
 #--- EXECUTION POLICY ---#
 #------------------------#
 Write-Host "CONFIGURING EXECUTIONPOLICY..." -ForegroundColor Yellow
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 $ExecutionPolicy = (Get-ExecutionPolicy).ToString()
 
