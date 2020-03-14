@@ -65,7 +65,7 @@ function global:ExecutionPolicy { Get-ExecutionPolicy -List }
 #--- MODULES ---#
 #---------------#
 Write-Host "IMPORTING MODULES..." -ForegroundColor Yellow
-Import-Module -Name ActiveDirectory, PSReadline, MSOnline, PowerShellGet | Out-Null
+Import-Module -Name PSReadline, MSOnline, PowerShellGet | Out-Null
 
 #---------------#
 #--- ALIASES ---#
@@ -87,4 +87,4 @@ if (Test-Path($ChocolateyProfile)) {
 #--- COMMENTS ---#
 #----------------#
 Write-Host "SUCCESSFULLY LOADED POWERSHELL PROFILE!" -ForegroundColor Green
-Write-Host "`n #--- USEFUL FUNCTIONS & ALIASES ---# `n `n [GETFUNCTIONS] Show all functions available. `n [CHOCOITUP] Updates all Chocolatey packages. `n [EDIT-PROFILE] Edit PowerShell profile in Notepad++ `n [RELOAD] Reload PowerShell profile. `n [BYPASS] Sets ExecutionPolicy to 'Bypass' for current process. `n [TERMINAL] Opens Microsoft Terminal Preview. `n [GETSERVICES] Displays all services, grouped by status. `n [GETRUNNINGSERVICES] Displays all running services. `n [GETSTOPPEDSERVICES] Displays all stopped services. `n " -ForegroundColor Green
+Write-Host "`n #--- USEFUL FUNCTIONS & ALIASES ---# `n `n [GETFUNCTIONS] Show all functions available. `n [CHOCOITUP] Updates all Chocolatey packages. `n [EDIT-PROFILE] Edit PowerShell profile in Notepad++ `n [RELOAD] Reload PowerShell profile. `n [BYPASS] Sets ExecutionPolicy to 'Bypass' for current process. `n [TERMINAL] Opens Microsoft Terminal Preview. `n [GETSERVICES] Displays all services, grouped by status. `n [GETRUNNINGSERVICES] Displays all running services. `n [GETSTOPPEDSERVICES] Displays all stopped services. `n " -ForegroundColor Cyan
