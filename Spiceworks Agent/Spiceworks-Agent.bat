@@ -1,0 +1,1 @@
+msiexec.exe /i SpiceworksAgentShell_Collection_Agent.msi /qn SITE_KEY="XOq4LcWyYbC6dhAKxqBi"
