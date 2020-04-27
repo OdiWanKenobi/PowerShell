@@ -1,10 +1,8 @@
 <#
 	.AUTHOR
 		Alex Labrosse
-
 	.SYNOPSIS
 		Customized PowerShell $profile.
-
 	.NOTES
 		Loads commonly used modules.
 		Sets shell start location to local working directory.
@@ -12,29 +10,17 @@
 		Configures shell to dynamically update functions repository.
 #>
 
-#---------------------------#
-#--- RUNAS ADMINISTRATOR ---#
-#---------------------------#
 #Requires -RunAsAdministrator
+
+Write-Host " " 
 Write-Host "LOADING CUSTOM POWERSHELL PROFILE..." -ForegroundColor Yellow
+Write-Host " " 
 
-#------------------------#
-#--- EXECUTION POLICY ---#
-#------------------------#
-Write-Host "CONFIGURING EXECUTIONPOLICY..." -ForegroundColor Yellow
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
-$ExecutionPolicy = (Get-ExecutionPolicy).ToString()
-
-#-------------------------#
-#--- DIRECTORIES ---#
-#-------------------------#
-Write-Host "CONFIGURING START DIRECTORY..." -ForegroundColor Yellow
 Set-Location C:\
 
-#-----------------#
-#--- FUNCTIONS ---#
-#-----------------#
+## FUNCTIONS
 Write-Host "IMPORTING FUNCTIONS..." -ForegroundColor Yellow
+Write-Host " " 
 function global:Date {Get-Date -UFormat "%A, %B %e, %Y %r"}
 function global:Bypass
 	{
@@ -55,36 +41,38 @@ function global:GetStoppedServices { Get-Service | Where-Object {$_.status -eq '
 function global:ChocoItUp
 	{
 		Write-Host "UPDATING CHOCOLATEY PACKAGES..." -ForegroundColor Yellow
-		choco upgrade all --verbose
+		choco upgrade all
 		Write-Host "SUCCESSFULLY UPDATED CHOCOLATEY PACKAGES!" -ForegroundColor Green
 	}
 function global:GetFunctions { Get-ChildItem function: }
 function global:ExecutionPolicy { Get-ExecutionPolicy -List }
 
-#---------------#
-#--- MODULES ---#
-#---------------#
-Write-Host "IMPORTING MODULES..." -ForegroundColor Yellow
-Import-Module -Name PSReadline, MSOnline, PowerShellGet | Out-Null
-
-#---------------#
-#--- ALIASES ---#
-#---------------#
+## ALIASES
 Write-Host "IMPORT ALIASES..." -ForegroundColor Yellow
+Write-Host " " 
 Set-Alias -Name:"gh" -Value:"Get-Help" -Description:"" -Option:"None"
 Set-Alias -Name:"note" -Value:"notepad++.exe" -Description:"Opens Notepad++"
 
-#------------------#
-#--- CHOCOLATEY ---#
-#------------------#
+## CHOCOLATEY
 Write-Host "IMPORTING CHOCOLATEY..." -ForegroundColor Yellow
+Write-Host " " 
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
 	Import-Module "$ChocolateyProfile"
 }
 
-#----------------#
-#--- COMMENTS ---#
-#----------------#
+## COMMENTS
 Write-Host "SUCCESSFULLY LOADED POWERSHELL PROFILE!" -ForegroundColor Green
-Write-Host "`n #--- USEFUL FUNCTIONS & ALIASES ---# `n `n [GETFUNCTIONS] Show all functions available. `n [CHOCOITUP] Updates all Chocolatey packages. `n [EDIT-PROFILE] Edit PowerShell profile in Notepad++ `n [RELOAD] Reload PowerShell profile. `n [BYPASS] Sets ExecutionPolicy to 'Bypass' for current process. `n [TERMINAL] Opens Microsoft Terminal Preview. `n [GETSERVICES] Displays all services, grouped by status. `n [GETRUNNINGSERVICES] Displays all running services. `n [GETSTOPPEDSERVICES] Displays all stopped services. `n " -ForegroundColor Cyan
+Write-Host " " -ForegroundColor Cyan
+Write-Host "#---# USEFUL FUNCTIONS & ALIASES #---#" -ForegroundColor Cyan
+Write-Host " " -ForegroundColor Cyan
+Write-Host "[GETFUNCTIONS] Show all functions available." -ForegroundColor Cyan
+Write-Host "[CHOCOITUP] Updates all Chocolatey packages." -ForegroundColor Cyan
+Write-Host "[EDIT-PROFILE] Edit PowerShell profile in Notepad++" -ForegroundColor Cyan
+Write-Host "[RELOAD] Reload PowerShell profile." -ForegroundColor Cyan
+Write-Host "[BYPASS] Sets ExecutionPolicy to 'Bypass' for current process." -ForegroundColor Cyan
+Write-Host "[TERMINAL] Opens Microsoft Terminal Preview." -ForegroundColor Cyan
+Write-Host "[GETSERVICES] Displays all services, grouped by status." -ForegroundColor Cyan
+Write-Host "[GETRUNNINGSERVICES] Displays all running services." -ForegroundColor Cyan
+Write-Host "[GETSTOPPEDSERVICES] Displays all stopped services." -ForegroundColor Cyan
+Write-Host "  " -ForegroundColor Cyan

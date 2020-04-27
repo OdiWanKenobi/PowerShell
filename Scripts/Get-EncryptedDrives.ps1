@@ -1,0 +1,1 @@
+Get-BitLockerVolume | Where-Object { $_.VolumeStatus -eq ‘FullyEncrypted’ }

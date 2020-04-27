@@ -1,0 +1,1 @@
+Start-Process powershell.exe -Argument "-noexit -nologo -noprofile -command write-host"
