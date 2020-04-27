@@ -1,10 +1,10 @@
 <#
     TITLE.
-        "Click-Me.ps1"
-
+        "Better-Laptop.ps1"
     PURPOSE.
         Configures device in one script.
-
+    AUTHOR.
+        Alex Labrosse
     NOTES.
         Install Chocolatey & Boxstarter.
         Removes Windows bloatware.
@@ -13,7 +13,6 @@
         Renames hostname.
         Binds to Active Directory domain.
         Reboots.
-
 #>
 
 ## Chocolatey
@@ -33,8 +32,11 @@ Disable-GameBarTips
 Set-TimeZone -Name "Eastern Standard Time"
 
 ## Feature(s)
-Get-WindowsCapability -Name RSAT* -Online | Add-WindowsCapability –Online
 Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol
+
+## Remoting
+Enable-PSRemoting -Force
+winrm quickconfig -quiet
 
 ## Service(s)
 Get-Service -DisplayName "Function Discovery Resource Publication" | Start-Service
@@ -48,83 +50,33 @@ Get-NetFirewallRule -DisplayGroup "File and Printer Sharing" | Enable-NetFirewal
 Get-NetFirewallRule -DisplayGroup "Network Discovery" | Set-NetFirewallRule -Action Allow
 Get-NetFirewallRule -DisplayGroup "Network Discovery" | Enable-NetFirewallRule
 
+## Repositories
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+
 ## Module(s)
 Install-Module -Name PackageManagement -Force
-Install-Module -Name MSOnline -Force
 Install-Module -Name PowerShellGet -Force
-Install-Module -Name PSReadline -Force
 
-## PowerShell 7
-iex "& { $(irm https://aka.ms/install-powershell.ps1) } -UseMSI"
+## SCript(s)
+Install-Script Test-PendingReboot -Force
 
 # Bloatware
 Get-AppxPackage -AllUsers | Where-Object { $_.name –notlike "*Microsoft.WindowsStore*" } | Where-Object { $_.packagename -notlike "*Microsoft.WindowsCalculator*" } | Remove-AppxPackage -ErrorAction SilentlyContinue
-
-# GUI
-choco install chocolateygui
 
 # General
 choco install 7zip
 choco install adobereader
 choco install notepadplusplus
 choco install vlc
-choco install filezilla
-choco install teamviewer
-choco install telegram.install
+choco install teamviewer.host
 choco install slack
 choco install zoom
-choco install lastpass
-choco install dashlane
-choco install whatsapp
-choco install f.lux
 
-# Chrome
-choco install googlechrome
-choco install adblockpluschrome
-
-# Google
-choco install google-backup-and-sync
-choco install google-drive-file-stream
-choco install googledrive
+# G Suite
 choco install google-chrome-for-enterprise
-choco install google-calendar-chrome
-
-# File Sync
-choco install onedrive
-choco install box-drive
-choco install boxsync
-
-# Servers
-choco install sql-server-management-studio
-choco install rsat
-
-# Troubleshooting
-choco install logparser
-choco install sysinternals
-choco install procexp
-choco install procmon
-choco install baretail
-choco install angryip
-
-# Utilities
-choco install treesizefree
-choco install rufus
-
-# Editors
-choco install microsoft-windows-terminal
-choco install vscode
-choco install vscode-intellicode
-choco install vscode-powershell
-choco install vscode-settingssync
-choco install vscode-azurerm-tools
-choco install vscode.template
-choco install git
-choco install github-desktop
-
-# Azure
-choco install azure-cli
-choco install microsoftazurestorageexplorer
-choco install fogg
+choco install adblockpluschrome
+choco install google-drive-file-stream
 
 # Office 365
 choco install office365proplus
@@ -139,7 +91,27 @@ Enable-MicrosoftUpdate
 Install-WindowsUpdate -getUpdatesFromMS -acceptEula -SuppressReboots
 
 # Bind
-Add-Computer -NewName $NewHostName -DomainName "corp.better.site" -OUPath "OU=Computers,OU=IT,dc=corp,DC=better,DC=site" -Verbose
+Add-Computer -NewName $NewHostName -DomainName "corp.better.site" -Verbose
 
-# Restart
-Restart-Computer -Force -Verbose
+## Rename
+$NewHostName = Read-Host -Prompt 'Enter new computer name'
+Rename-Computer -NewName $NewHostName -Force
+
+## Pending Reboot
+$Reboot = Test-PendingReboot -ComputerName localhost
+if ($Reboot = $True)
+ {
+    Write-Host " "
+    Write-Host "Pending reboot detected." -ForegroundColor Yellow
+    Write-Host "Press any button to continue with reboot." -ForegroundColor Yellow
+    Write-Host " "
+    Pause
+    Restart-Computer -Force
+ }
+else
+ {
+    Write-Host " "
+    Write-Host "No pending reboot detected." -ForegroundColor Yellow
+    Write-Host "Updates installed successfully." -ForegroundColor Green
+    Write-Host " "
+ }

@@ -34,6 +34,10 @@ Get-NetFirewallRule -DisplayGroup "File and Printer Sharing" | Enable-NetFirewal
 Get-NetFirewallRule -DisplayGroup "Network Discovery" | Set-NetFirewallRule -Action Allow
 Get-NetFirewallRule -DisplayGroup "Network Discovery" | Enable-NetFirewallRule
 
+## Repositories
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+
 ## Module(s)
 Install-Module -Name PackageManagement -Force
 Install-Module -Name MSOnline -Force
@@ -43,10 +47,6 @@ Install-Module -Name Az -AllowClobber -Force
 
 ## Script(s)
 Install-Script Test-PendingReboot -Force
-
-## Repositories
-Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
-Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
 ## PowerShell 7
 iex "& { $(irm https://aka.ms/install-powershell.ps1) } -UseMSI"
