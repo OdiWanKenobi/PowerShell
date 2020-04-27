@@ -41,6 +41,9 @@ Install-Module -Name PowerShellGet -Force
 Install-Module -Name PSReadline -Force
 Install-Module -Name Az -AllowClobber -Force
 
+## Script(s)
+Install-Script Test-PendingReboot -Force
+
 ## Repositories
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
@@ -87,8 +90,21 @@ Install-WindowsUpdate -getUpdatesFromMS -acceptEula -SuppressReboots
 $NewHostName = Read-Host -Prompt 'Enter new computer name'
 Rename-Computer -NewName $NewHostName -Force
 
-##------ Pause ------##
-Pause
-
-##------ Reboot ------##
-Restart-Computer -Force
+## Pending Reboot
+$Reboot = Test-PendingReboot -ComputerName localhost
+if ($Reboot = $True)
+ {
+    Write-Host " "
+    Write-Host "Pending reboot detected." -ForegroundColor Yellow
+    Write-Host "Press any button to continue with reboot." -ForegroundColor Yellow
+    Write-Host " "
+    Pause
+    Restart-Computer -Force
+ }
+else
+ {
+    Write-Host " "
+    Write-Host "No pending reboot detected." -ForegroundColor Yellow
+    Write-Host "Updates installed successfully." -ForegroundColor Green
+    Write-Host " "
+ }
