@@ -35,8 +35,8 @@ Set-TimeZone -Name "Eastern Standard Time"
 Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol
 
 ## Remoting
-Enable-PSRemoting -Force
-winrm quickconfig -quiet
+Enable-PSRemoting -Force -ErrorAction 0
+Set-WSManQuickConfig -Force -ErrorAction 0
 
 ## Service(s)
 Get-Service -DisplayName "Function Discovery Resource Publication" | Start-Service

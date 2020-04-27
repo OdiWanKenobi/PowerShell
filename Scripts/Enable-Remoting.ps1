@@ -1,4 +1,2 @@
-
-
 Enable-PSRemoting -Force
-Set-WSManQuickConfig -force
+Set-WSManQuickConfig -Force

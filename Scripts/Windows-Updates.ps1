@@ -7,19 +7,22 @@
         Downloads Windows Updates from Microsoft, accepts the EULA, and suppresses reboots.
 #>
 
-## Modules
+## Import Modules
 Import-Module $ChocolateyProfile
 Import-Module Boxstarter.Winconfig
 
-## Enabling Windows Updates
+## Enable Updates
 Enable-MicrosoftUpdate
 
-## Installing Updates
+## Install Updates
 Install-WindowsUpdate -getUpdatesFromMS -acceptEula -SuppressReboots
 
-## If / Else
+## Check for Pending Reboot
 $Reboot = Test-PendingReboot -ComputerName localhost
-if ($Reboot = $True)
+
+## If $TRUE, force reboot.
+## Else $FALSE, exit message.
+if ($Reboot -eq $True)
  {
     Write-Host " "
     Write-Host "Pending reboot detected." -ForegroundColor Yellow
