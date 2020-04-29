@@ -1,3 +1,1 @@
-
-
-Get-CimInstance -Class Win32_NetworkAdapter -ComputerName .
+Get-CimInstance -ClassName Win32_NetworkAdapter

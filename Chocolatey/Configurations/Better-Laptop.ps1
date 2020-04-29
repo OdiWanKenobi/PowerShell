@@ -20,6 +20,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 
 ## Chocolatey Settings
 choco feature enable -n allowGlobalConfirmation
+choco feature enable -n useRememberedArgumentsForUpgrades
 
 ## Boxstarter
 . { iwr -useb https://boxstarter.org/bootstrapper.ps1 } | iex; Get-Boxstarter -Forceiex "& { $(irm https://aka.ms/install-powershell.ps1) } -UseMSI"

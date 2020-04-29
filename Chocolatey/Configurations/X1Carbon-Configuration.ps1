@@ -3,6 +3,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 
 ## Chocolatey Settings
 choco feature enable -n allowGlobalConfirmation
+choco feature enable -n useRememberedArgumentsForUpgrades
 
 ## Boxstarter
 . { iwr -useb https://boxstarter.org/bootstrapper.ps1 } | iex; Get-Boxstarter -Forceiex "& { $(irm https://aka.ms/install-powershell.ps1) } -UseMSI"
@@ -19,8 +20,8 @@ Get-WindowsCapability -Name RSAT* -Online | Add-WindowsCapability –Online
 Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol
 
 ## Remoting
-Enable-PSRemoting -Force
-winrm quickconfig -quiet
+Enable-PSRemoting -Force -ErrorAction 0
+Set-WSManQuickConfig -Force -ErrorAction 0
 
 ## Service(s)
 Get-Service -DisplayName "Function Discovery Resource Publication" | Start-Service
