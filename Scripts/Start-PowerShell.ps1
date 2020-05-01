@@ -1,4 +1,4 @@
-## Script must contain FQDN path to .os1 file
+## Script must contain FQDN path to .ps1 file
 $Script = ""
 $CommandLine = "-noexit & $script"
 $Credential = Get-Credential
