@@ -1,0 +1,1 @@
+add-windowsfeature rsat-hyper-v-tools

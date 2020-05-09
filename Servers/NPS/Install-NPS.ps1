@@ -1,0 +1,1 @@
+Install-WindowsFeature -Name NPAS-Policy-Server -IncludeManagementTools
