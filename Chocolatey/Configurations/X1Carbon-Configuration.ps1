@@ -65,6 +65,7 @@ choco install microsoft-windows-terminal
 choco install microsoft-edge
 
 ## Software
+choco install googlechrome
 choco install notepadplusplus
 choco install dashlane
 choco install authy
