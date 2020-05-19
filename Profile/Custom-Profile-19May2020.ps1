@@ -81,6 +81,13 @@ Write-Host "  " -ForegroundColor Cyan
 ## Using this unique string to generate filenames for PowerShell transcripts
 $TranscriptFileName = Get-Date -Format o
 
-##
+## Verifies if the directory exists
+## If not, creates the necessary folder
+$LogFolder = "C:\Transcripts\"
+if (!(Test-Path -Path $LogFolder)) {
+    New-Item -ItemType Directory -Path $LogFolder -Force
+  }
+
+## Creates a new, unique log file for each PowerShell session
 $LogPath = "C:\Transcripts\" + "$TranscriptFileName" + ".txt"
 Start-Transcript -Path $LogPath -Verbose

@@ -8,3 +8,4 @@
 Set-ExecutionPolicy Bypass -Scope Process -Force; . { iwr -useb https://boxstarter.org/bootstrapper.ps1 } | iex; Get-Boxstarter -Force
 
 choco feature enable -n=allowGlobalConfirmation
+choco feature enable -n useRememberedArgumentsForUpgrades

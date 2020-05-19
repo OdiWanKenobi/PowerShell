@@ -10,7 +10,7 @@
 #RunAs Administrator
 
 ## Execution Policy
-Set-ExecutionPolicy -ExecutionPolicy Bypass
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 
 ## Choco Install
 Install-Module Chocolatey
@@ -18,3 +18,4 @@ Install-ChocolateySoftware
 
 ## Choco Setting(s)
 choco feature enable -n=allowGlobalConfirmation
+choco feature enable -n useRememberedArgumentsForUpgrades
