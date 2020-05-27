@@ -13,7 +13,7 @@
 		Defines commonly used functions.
 		Configures shell to dynamically update functions repository.
 	.URL
-		https://gist.githubusercontent.com/OdiWanKenobi/5170bd6ca6a6543a35ee68adeba211a6/raw/6ea1f4c6047ce4f368fb2fc08bb8ceaeee5f43e0/Microsoft.PowerShell_profile.ps1
+		https://gist.githubusercontent.com/OdiWanKenobi/5170bd6ca6a6543a35ee68adeba211a6/raw/c057dcedb6d06f33510ab3feda25733139fef13c/Microsoft.PowerShell_profile.ps1
 #>
 
 #Requires -RunAsAdministrator
