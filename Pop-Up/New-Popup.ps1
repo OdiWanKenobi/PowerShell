@@ -5,6 +5,8 @@
         Alex Labrosse
     .DESCRIPTION
         Invokes a basic pop-up message, with title, message, and Yes/No answer returns.
+    .SYNTAX
+        Popup(<Text>,<SecondsToWait>,<Title>,<Type>)
     .REFERENCES
         http://woshub.com/popup-notification-powershell/
 #>

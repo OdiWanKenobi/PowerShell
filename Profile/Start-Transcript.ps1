@@ -10,7 +10,7 @@
 
 ## Converting the DateTime object to a string using 'Get-Date -Format o'
 ## Using this unique string to generate filenames for PowerShell transcripts
-$TranscriptFileName = Get-Date -Format o
+$TranscriptFileName = Get-Date -Format 'dd-MMMM-yyyy-HH-mm-ss'
 
 ##
 $LogPath = "C:\Transcripts\" + "$TranscriptFileName" + ".txt"
