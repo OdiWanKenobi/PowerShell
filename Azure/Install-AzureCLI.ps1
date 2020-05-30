@@ -13,6 +13,8 @@
 #>
 
 ## Variable(s)
-$downloads = "$Env:USERPROFILE\Downloads\"
+$downloadPath = "$env:USERPROFILE\Downloads\"
+$azureUri = "https://aka.ms/installazurecliwindows"
+$installer = "$downloadPath\AzureCLI.msi"
 
 Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; rm .\AzureCLI.msi

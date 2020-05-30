@@ -5,19 +5,16 @@
         Alex Labrosse
     .DESCRIPTION
         Downloads the Terraform ZIP file, extracts it, and creates the relevant PATH variable.
-    .USAGE
-
-    .REFERENCE
-        https://docs.microsoft.com/en-us/azure/developer/terraform/overview
 #>
 
 ## Variables
 $terraformPath = "C:\Terraform"
 $terraformUri = 'https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_windows_amd64.zip'
 $terraformZip = "$terraformPath\terraform_0.12.26_windows_amd64.zip"
+$terraformTest = Test-Path $terraformPath
 
 ## Checking for $terraformDir and creating if it does not exist
-if (Test-Path $terraformPath)
+if ($terraformTest -eq $false)
     {
         New-Item -Path $terraformPath -ItemType Directory -Force
     }
@@ -48,3 +45,6 @@ if ($env:PATH -notcontains $terraformPath)
         }
         [Environment]::SetEnvironmentVariable("Path", ($env:path), [System.EnvironmentVariableTarget]::Machine)
     }
+
+## Test Terraform
+terraform version
