@@ -1,1 +1,1 @@
-Update-Help -Force -ErrorAction SilentlyContinue
+Update-Help -Force -Ea 0
