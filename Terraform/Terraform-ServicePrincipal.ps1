@@ -31,4 +31,4 @@ Connect-AzAccount -ServicePrincipal -Credential $spCredentials -Tenant $tenantId
 
 ##
 $terraformServicePrincipal = Get-AzADServicePrincipal -DisplayName TerraformServicePrincipal
-New-AzRoleAssignment -ApplicationId $terraformServicePrincipal.ApplicationId -RoleDefinition "Contributor"
+New-AzRoleAssignment -ApplicationId $terraformServicePrincipal.ApplicationId -RoleDefinitionName "Contributor"
