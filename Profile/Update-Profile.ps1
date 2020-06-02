@@ -2,7 +2,7 @@
     .TITLE
         'Update-Profile.ps1'
     .AUTHOR
-        Alex Labrosse
+        Alex Labrossesss
     .DATE
         19 May 2020
     .DESCRIPTION
@@ -10,7 +10,7 @@
 #>
 
 ## Specifies the URL of the RAW Public Gist
-$profileUri = 'https://gist.githubusercontent.com/OdiWanKenobi/5170bd6ca6a6543a35ee68adeba211a6/raw/230dfa5ab0e062be874a402fe63ca809084916dc/Microsoft.PowerShell_profile.ps1'
+$profileUri = 'https://gist.githubusercontent.com/OdiWanKenobi/5170bd6ca6a6543a35ee68adeba211a6/raw/030c841498d24d95c2c53b7fe38df3d25b2d1cc2/Microsoft.PowerShell_profile.ps1'
 
 ## Downloads the contents of the RAW Public Gist
 $profileDownload = Invoke-WebRequest -Uri $profileUri
