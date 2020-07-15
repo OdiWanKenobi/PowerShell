@@ -1,6 +1,6 @@
 <#
     TITLE.
-        "Better-Laptop.ps1"
+        "W10-Corporate.ps1"
     PURPOSE.
         Configures device in one script.
     AUTHOR.
@@ -14,6 +14,9 @@
         Binds to Active Directory domain.
         Reboots.
 #>
+
+## Variables
+$ADDS = "Replace with AD DS FQDN Here"
 
 ## Chocolatey
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
@@ -92,11 +95,7 @@ Enable-MicrosoftUpdate
 Install-WindowsUpdate -getUpdatesFromMS -acceptEula -SuppressReboots
 
 # Bind
-Add-Computer -NewName $NewHostName -DomainName "corp.better.site" -Verbose
-
-## Rename
-$NewHostName = Read-Host -Prompt 'Enter new computer name'
-Rename-Computer -NewName $NewHostName -Force
+Add-Computer -NewName $NewHostName -DomainName $ADDS -Verbose
 
 ## Pending Reboot
 $Reboot = Test-PendingReboot -ComputerName localhost
