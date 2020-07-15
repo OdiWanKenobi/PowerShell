@@ -1,6 +1,6 @@
 <#
     TITLE.
-        "Better-Laptop.ps1"
+        "W10-Corporate.ps1"
     PURPOSE.
         Configures device in one script.
     AUTHOR.
