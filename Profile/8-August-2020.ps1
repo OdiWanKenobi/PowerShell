@@ -2,7 +2,7 @@
 	.TITLE
 		'Microsoft.PowerShell_profile.ps1'
 	.DATE
-		9 August 2020
+		1 July 2020
 	.AUTHOR
 		Alex Labrosse
 	.SYNOPSIS
@@ -12,11 +12,13 @@
 		Sets shell start location to local working directory.
 		Defines commonly used functions.
 		Configures shell to dynamically update functions repository.
+	.URI
+		https://gist.githubusercontent.com/OdiWanKenobi/5170bd6ca6a6543a35ee68adeba211a6/raw/030c841498d24d95c2c53b7fe38df3d25b2d1cc2/Microsoft.PowerShell_profile.ps1
 #>
 
 <#
     .CHANGELOG
-        [06-02-2020]
+        [06-02-2020]:
             Added "Updates" function - runs the "Windows-Updates.ps1" script as a function.
             Added "Start-PSAdmin" function - runs a new elevated (administrator) PowerShell session.
             Added "Update-PSHelp" function - downloads and updates PowerShell help articles.
@@ -24,10 +26,8 @@
             Added "Functions" function - changes working directory to $env:USERPROFILE\OneDrive\Documents\GitHub\alabrosse\PowerShell\Functions.
             Updated "Scripts" function - changes working directory to $env:USERPROFILE\OneDrive\Documents\GitHub\alabrosse\PowerShell\Scripts.
             Updated ".URI" to point to the new public Gist URI.
-        [07-01-2020]
-			Added "Update-Pwsh" function to update to most recent stable PowerShell Core version.
-		[08-09-2020]
-			Added "Code" function; opens VS Code .lnk file. This ensures that new sessions of VS Code are elevated.
+        [07-01-2020]:
+            Added "Update-Pwsh" function to update to most recent stable PowerShell Core version.
 #>
 
 #Requires -RunAsAdministrator
@@ -35,6 +35,7 @@
 Set-Location C:\
 
 ## FUNCTIONS
+function global:Date {Get-Date -UFormat "%A, %B %e, %Y %r"}
 function global:Bypass
 	{
 		Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
@@ -47,13 +48,13 @@ function global:Update-Alias
 	}
 function global:Terminal { Invoke-Item "$ENV:USERPROFILE\Desktop\Windows Terminal.lnk" }
 function global:Edit-Profile { notepad++.exe $profile.CurrentUserCurrentHost }
-#function global:Update-Profile { 
-#	$profileUri = 'https://gist.githubusercontent.com/OdiWanKenobi/5170bd6ca6a6543a35ee68adeba211a6/raw/6ea1f4c6047ce4f368fb2fc08bb8ceaeee5f43e0/Microsoft.PowerShell_profile.ps1'
-#	$profileDownload = Invoke-WebRequest -Uri $profileUri
-#	$profileContent = $profileDownload.Content
-#	Add-Content -Path $profile -Value $profileContent -Verbose
-#	Write-Host "Updated local PowerShell profile from gist.github.com" -ForegroundColor Green
-#}
+function global:Update-Profile { 
+	$profileUri = 'https://gist.githubusercontent.com/OdiWanKenobi/5170bd6ca6a6543a35ee68adeba211a6/raw/6ea1f4c6047ce4f368fb2fc08bb8ceaeee5f43e0/Microsoft.PowerShell_profile.ps1'
+	$profileDownload = Invoke-WebRequest -Uri $profileUri
+	$profileContent = $profileDownload.Content
+	Add-Content -Path $profile -Value $profileContent -Verbose
+	Write-Host "Updated local PowerShell profile from gist.github.com" -ForegroundColor Green
+}
 function global:GetServices { Get-Service | Sort-Object Status | Format-Wide -GroupBy Status -AutoSize }
 function global:GetRunningServices { Get-Service | Where-Object {$_.status -eq 'running'} | Select-Object DisplayName,Name }
 function global:GetStoppedServices { Get-Service | Where-Object {$_.status -eq 'stopped'} | Select-Object DisplayName,Name }
@@ -101,11 +102,12 @@ function global:Updates
             Write-Host "Updates installed successfully." -ForegroundColor Green
             Write-Host " "
         }
-}
+    }
 function global:Start-PSAdmin { Start-Process PowerShell -Verb RunAs }
 function global:Update-PSHelp { Update-Help -Force -ErrorAction 0 }
 function global:Update-Pwsh { iex "& { $(irm https://aka.ms/install-powershell.ps1) } -UseMSI" }
-function global:Code { & 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Visual Studio Code\Visual Studio Code.lnk' }
+function global:Code { & 'C:\Program Files\Microsoft VS Code\Code.exe' }
+
 
 ## ALIASES
 Set-Alias -Name:"gh" -Value:"Get-Help" -Description:"" -Option:"None"
@@ -130,4 +132,4 @@ if (!(Test-Path -Path $LogFolder)) {
 
 ## Creates a new, unique log file for each PowerShell session
 $LogPath = "C:\Transcripts\" + "$TranscriptFileName" + ".txt"
-Start-Transcript -Path $LogPath -Verbose
+Start-Transcript -Path $LogPath
