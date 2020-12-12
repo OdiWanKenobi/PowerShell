@@ -1,1 +1,1 @@
-Disable-WindowsOptionalFeature -Online -FeatureName smb1protocol
+Disable-WindowsOptionalFeature -Online -FeatureName smb1protocol -NoRestart
