@@ -12,6 +12,6 @@ Get-Service -DisplayName "SSDP Discovery"  | Start-Service
 Get-Service -DisplayName "UPnP Device Host" | Start-Service
 
 # Set action to allow
-Get-NetFirewallRule -DisplayGroup "File and Printer Sharing" | Set-NetFirewallRule -Action Allow 
+Get-NetFirewallRule -DisplayGroup "File and Printer Sharing" | Set-NetFirewallRule -Action Allow
 # Enabling the rule
 Get-NetFirewallRule -DisplayGroup "File and Printer Sharing" | Enable-NetFirewallRule
