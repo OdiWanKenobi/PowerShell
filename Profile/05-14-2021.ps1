@@ -46,13 +46,13 @@ function global:ChocoInstalls { choco find --local-only }
 
 function global:ChocoInstallsPlusPrograms { choco find --local-only --include-programs }
 
-function global:Hibernate { $Env:WinDir shutdown.exe /h }
+function global:Hibernate { shutdown.exe -h }
 
-function global:Reboot { $Env:WinDir shutdown.exe /r }
+function global:Reboot { shutdown.exe -r }
 
-function global:Shutdown { $Env:WinDir shutdown.exe /s }
+function global:Shutdown { shutdown.exe -s }
 
-function global:Logoff { $Env:WinDir shutdown.exe /l }
+function global:Logoff { shutdown.exe -l }
 
 <#
 .ALIASES
