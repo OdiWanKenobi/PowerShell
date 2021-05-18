@@ -18,13 +18,6 @@
 #Requires -RunAsAdministrator
 Write-Host "LOADING CUSTOM POWERSHELL PROFILE..." -ForegroundColor Yellow
 
-#------------------------#
-#--- EXECUTION POLICY ---#
-#------------------------#
-Write-Host "CONFIGURING EXECUTIONPOLICY..." -ForegroundColor Yellow
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
-$ExecutionPolicy = (Get-ExecutionPolicy).ToString()
-
 #-------------------------#
 #--- DIRECTORIES ---#
 #-------------------------#
@@ -62,17 +55,11 @@ function global:GetFunctions { Get-ChildItem function: }
 function global:ExecutionPolicy { Get-ExecutionPolicy -List }
 
 #---------------#
-#--- MODULES ---#
-#---------------#
-Write-Host "IMPORTING MODULES..." -ForegroundColor Yellow
-Import-Module -Name PSReadline, MSOnline, PowerShellGet | Out-Null
-
-#---------------#
 #--- ALIASES ---#
 #---------------#
 Write-Host "IMPORT ALIASES..." -ForegroundColor Yellow
-Set-Alias -Name:"gh" -Value:"Get-Help" -Description:"" -Option:"None"
-Set-Alias -Name:"note" -Value:"notepad++.exe" -Description:"Opens Notepad++"
+Set-Alias -Name:"gh" -Value:"Get-Help" -Description:"Get-Help"
+Set-Alias -Name:"np" -Value:"notepad++.exe" -Description:"Opens Notepad++"
 
 #------------------#
 #--- CHOCOLATEY ---#

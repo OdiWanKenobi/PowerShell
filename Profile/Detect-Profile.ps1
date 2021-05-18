@@ -1,0 +1,2 @@
+Test-Path $profile
+    
