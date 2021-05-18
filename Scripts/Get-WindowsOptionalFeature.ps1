@@ -1,0 +1,1 @@
+Get-WindowsOptionalFeature -Online -FeatureName * | Select-Object DisplayName,FeatureName,State | Format-Table -AutoSize

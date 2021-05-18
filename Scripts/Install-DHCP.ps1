@@ -1,0 +1,1 @@
+Get-WindowsCapability -Name Rsat.DHCP.Tool* -Online | Add-WindowsCapability –Online

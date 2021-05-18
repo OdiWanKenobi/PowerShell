@@ -1,0 +1,1 @@
+Get-WindowsCapability -Name Rsat.GroupPolicy.Management.Tools* -Online | Add-WindowsCapability –Online
