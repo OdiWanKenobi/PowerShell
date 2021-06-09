@@ -5,17 +5,17 @@ Get-Service *bits* | Stop-Service -Force -Confirm:$false
 Get-Service *msiserver* | Stop-Service -Force -Confirm:$false
 
 # Deleting Windows Update Cache Folders in "SoftwareDistribution"
-# C:\Windows\SoftwareDistribution\Download
+# "C:\Windows\SoftwareDistribution\Download"
 Get-ChildItem "C:\Windows\SoftwareDistribution\Download" -Force | Remove-Item -Recurse -Confirm:$false
 
-# C:\Windows\SoftwareDistribution\DataStore
+# "C:\Windows\SoftwareDistribution\DataStore"
 Get-ChildItem "C:\Windows\SoftwareDistribution\DataStore" -Force | Remove-Item -Recurse -Confirm:$false
 
-# C:\Windows\SoftwareDistribution\PostRebootEventCache.V2
+# "C:\Windows\SoftwareDistribution\PostRebootEventCache.V2"
 Get-ChildItem "C:\Windows\SoftwareDistribution\PostRebootEventCache.V2" -Force | Remove-Item -Recurse -Confirm:$false
 
 # Starting Windows Update Services
-Get-Service *wuauserv* | Start-Service -Force
-Get-Service *crypSvc* | Start-Service -Force
-Get-Service *bits* | Start-Service -Force
-Get-Service *msiserver* | Start-Service -Force
+Get-Service *wuauserv* | Start-Service
+Get-Service *crypSvc* | Start-Service
+Get-Service *bits* | Start-Service
+Get-Service *msiserver* | Start-Service
